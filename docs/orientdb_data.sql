@@ -1,0 +1,4 @@
+CREATE CLASS RddObj EXTENDS V
+CREATE PROPERTY RddObj.uri string
+CREATE CLASS RelationType EXTENDS E
+CREATE PROPERTY RelationType.uri string
