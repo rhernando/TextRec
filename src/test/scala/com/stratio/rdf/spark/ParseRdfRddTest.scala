@@ -57,7 +57,7 @@ class ParseRdfRddTest extends FlatSpec with Matchers with SparkTextContext {
     entRels.count() shouldBe 7
   }
 
-  "it" should "become a Graph" in {
+  "it" should "become a Graph[RdfObj, RdfRelation]" in {
     import RdfRDD._
     import RdfEntityRDD._
 

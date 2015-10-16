@@ -1,3 +1,5 @@
+import sbtassembly.MergeStrategy
+
 name := "TextRec"
 
 version := "1.0"
@@ -22,13 +24,26 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-streaming" % sparkVersion % "compile,test,provided",
   "org.apache.spark" %% "spark-graphx" % sparkVersion % "compile,test,provided",
   "org.apache.spark" %% "spark-streaming-kafka" % sparkVersion % "compile,test",
-  "com.orientechnologies" % "orientdb-core" % "2.1.0" % "compile,test",
-  "com.orientechnologies" % "orientdb-client" % "2.1.0" % "compile,test",
-  "com.orientechnologies" % "orientdb-object" % "2.1.0" % "compile,test",
-  "com.orientechnologies" % "orientdb-graphdb" % "2.1.0" % "compile,test",
-  "com.orientechnologies" % "orientdb-distributed" % "2.1.0",
+  "com.orientechnologies" % "orientdb-core" % "2.1.4" % "compile,test",
+  "com.orientechnologies" % "orientdb-client" % "2.1.4" % "compile,test",
+  "com.orientechnologies" % "orientdb-object" % "2.1.4" % "compile,test",
+  "com.orientechnologies" % "orientdb-graphdb" % "2.1.4" % "compile,test",
+  "com.orientechnologies" % "orientdb-distributed" % "2.1.4",
   "org.scalatest" %% "scalatest" % "2.0" % "test"
 )
 
 logBuffered in Test := false
 
+assemblyJarName in assembly := "rdforient.jar"
+
+assemblyMergeStrategy in assembly := {
+  case "reference.conf" => MergeStrategy.concat
+  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+  case m if m.toLowerCase.matches("meta-inf/services/.*") => MergeStrategy.concat
+  case m if m.toLowerCase.matches("meta-inf/.*\\.sf$") => MergeStrategy.discard
+  case _ => MergeStrategy.first
+}
+
+test in assembly := {}
+
+mainClass in assembly := Some("com.stratio.rdf.CreateRDFGraph")

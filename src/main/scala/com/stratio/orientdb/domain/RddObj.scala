@@ -4,6 +4,8 @@
 
 package com.stratio.orientdb.domain
 
-case class RddObj(uri:String) {
+case class RdfObj(uri:String)
 
-}
+case class RdfRelation(uri:String)
+
+

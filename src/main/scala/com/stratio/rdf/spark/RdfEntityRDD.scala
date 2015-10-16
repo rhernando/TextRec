@@ -9,6 +9,7 @@ import scala.language.implicitConversions
 import org.apache.spark.graphx._
 import org.apache.spark.rdd.RDD
 
+import com.stratio.orientdb.domain.{RdfRelation, RdfObj}
 import com.stratio.rdf.parser.RdfEntity
 
 class RdfEntityRDD(self: RDD[RdfEntity]) {
@@ -21,18 +22,18 @@ class RdfEntityRDD(self: RDD[RdfEntity]) {
     )
   }
 
-  def graphMode: Graph[String, String] = {
+  def graphMode: Graph[RdfObj, RdfRelation] = {
     import RdfEntityRDD._
 
     val rels = self.entityRelations.persist()
 
     val vertices = VertexRDD(rels.
       flatMap({ case (nameRel: (String, String), listObjs: List[String]) =>
-      Seq((nameRel._1.hashCode.toLong, nameRel._1)) ++ listObjs.map(lo => (lo.hashCode.toLong, lo))
+      Seq((nameRel._1.hashCode.toLong, RdfObj(nameRel._1))) ++ listObjs.map(lo => (lo.hashCode.toLong, RdfObj(lo)))
     }))
 
     val edges = rels.flatMap({ case (nameRel: (String, String), listObjs: List[String]) =>
-      listObjs.map(o => Edge(nameRel._1.hashCode.toLong, o.hashCode.toLong, nameRel._2))
+      listObjs.map(o => Edge(nameRel._1.hashCode.toLong, o.hashCode.toLong, RdfRelation(nameRel._2)))
     })
 
     Graph(vertices, edges)
