@@ -19,7 +19,10 @@ object CreateRDFGraph {
     val prop = loadProperties(args(0))
     val filesPath = args(1)
 
+    println("Creating context")
+
     val sc = ConfUtil.getContext(prop)
+
     val graph = sc.textFile(filesPath).entities.graphMode
 
     implicit val _: OrientDBConnector = OrientDBConnector(sc.getConf)
