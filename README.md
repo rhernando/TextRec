@@ -1,15 +1,30 @@
 # TextRec
-spark + orientdb + rdf data
+
+Spark job to store graphs in OrientDB.
+
+
 
 ## Description
 
-At this point the program reads some files downloades from http://wiki.dbpedia.org/Downloads2015-04#titles, 
+At this point the program reads some files downloaded from http://wiki.dbpedia.org/Downloads2015-04#titles, 
 transform data to a graph (spark-graphX) and store this graph into orientDb
 
 These files contains triples of the form
 ```
 $object rdf:type $class.
 ```
+
+*Example:*
+```
+<http://dbpedia.org/resource/Albedo> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Climate_forcing> .
+<http://dbpedia.org/resource/Anarchism> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Political_culture> .
+<http://dbpedia.org/resource/Anarchism> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Political_ideologies> .
+<http://dbpedia.org/resource/Anarchism> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Social_theories> .
+<http://dbpedia.org/resource/Anarchism> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Anti-fascism> .
+<http://dbpedia.org/resource/Anarchism> <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Anti-capitalism> .
+
+```
+
 
 ## Orientdb
 *DB version*: 2.1.4 
@@ -32,5 +47,5 @@ To make it work, we have to include orientdb dependencies in *build.sbt* (with t
 ## Run
 
 ```
-./bin/spark-submit --class com.stratio.rdf.CreateRDFGraph --name RDFOrient --jars /home/rhernando/proy/sandbox/TextRec/target/scala-2.10/rdforient.jar /home/rhernando/proy/sandbox/TextRec/target/scala-2.10/rdforient.jar dev /home/rhernando/proy/sandbox/lang/*
+./bin/spark-submit --class com.stratio.rdf.CreateRDFGraph --name RDFOrient --jars rdforient.jar rdforient.jar $ENV $FILES_PATH
 ```
