@@ -41,7 +41,11 @@ The connector transform a GraphX entity to a OrientDB's graph sctructure and sto
 
 ### Notes
 In order to make it work with a non-root user, we should create a user an add permissions (read/write). 
-We may need to update these permissions to allow this user to access to the cluster meta-info
+We may need to update these permissions to allow this user to access to the cluster meta-info. 
+
+![User spark Roles](docs/imgs/user_roles.png)
+
+![Permissions for READER](docs/imgs/permission-roles.png)
 
 
 
